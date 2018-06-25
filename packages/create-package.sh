@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
 if [ "$TRAVIS_PULL_REQUEST" == "true" -o "$TRAVIS_EVENT_TYPE" != "cron" ] ; then
+	echo "There is pull request or is not run cron."
     exit 0
 fi
 # check osb_user and osb_pass
 if [ -z "${osb_user}" -o -z "${osb_pass}" ]; then
+	echo "Missing username or password on opnesuse build"
     exit 0
 fi
 
+echo "Run update package on opensuse build"
 # fill username and password for opensuse build and downlaod last package information
 echo -e "[general]\napiurl = https://api.opensuse.org\n\n[https://api.opensuse.org]\nuser = ${osb_user}\npass = ${osb_pass}" >~/.oscrc
 cd ./build
@@ -46,3 +49,5 @@ cat ../libyang.spec | sed -e '1,/%changelog/d' >>libyang.spec
 # download source and update to opensuse build
 wget "https://github.com/CESNET/libyang/archive/$TRAVIS_BRANCH.tar.gz" -O $TRAVIS_BRANCH.tar.gz
 osc commit -m travis-update
+
+echo "Update package was successfuly."

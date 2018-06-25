@@ -46,4 +46,4 @@ script:
   - cd -
 
 after_success:
-  - if [ "$TRAVIS_OS_NAME" = "linux" -a "$CC" = "gcc" ]; then codecov; ./packages/create-package.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" -a "$CC" = "gcc-7" ]; then codecov; ./packages/create-package.sh; fi
